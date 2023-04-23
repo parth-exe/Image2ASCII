@@ -1,4 +1,3 @@
-import pywhatkit
 from PIL import Image
 from FILEPATH import input_path
 # FILE PATH
@@ -6,25 +5,37 @@ def get_filepath():
     file_name = input("Enter file name with extension: ")
     final_path = input_path + file_name
     return final_path
+
+def convert_to_ascii(final_path):
+    img = Image.open(final_path).convert('L')
+    width, height = img.size
+    aspect_ratio = height / width
+    width = 80
+    height = aspect_ratio * width * 0.55
+    img = img.resize((width, int(height)))
+    pixels = img.getdata()
+    chars = ["o", "x", "!", "&", "$", "$", "!", ",", "!", ":", "."]
+    new_pixels = [chars[pixel // 25] for pixel in pixels]
+    new_pixels = "".join(new_pixels)
+    pixels_count = len(new_pixels)
+    ascii_image = [
+            new_pixels[index : index + width]
+            for index in range(0, pixels_count, width)
+        ]
+    ascii_image = "\n".join(ascii_image)
+    print(f"{ascii_image}")
 # Opening Image
-def open_image(final_path):
+def main():
     try:
-        inp = Image.open(final_path)
+        convert_to_ascii(get_filepath())
     # Converting to ASCII
-        pywhatkit.image_to_ascii_art(final_path,'Image2ASCII/final') 
     except Exception as e:
         #\033[1;31m for Red Color
         #\033[1;32m for Green Color
         print(f"\033[1;31m [!]Exception {e} encountered[!]")
         print("\033[1;32m Exiting program, run again")
         quit()
-    read_file = open("Image2ASCII/final.txt","r")
-    # Reading File
-    print(read_file.read())
-    read_file.close()
-
-def main():
-    open_image(get_filepath())
+    
 
 if __name__ == "__main__":
     main()
