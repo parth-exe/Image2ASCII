@@ -9,3 +9,4 @@ To run this:
 ```
 Run requirements.py file in the Image2ASCII folder.
 ```
+* To find the file directory, 
