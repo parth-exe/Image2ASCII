@@ -1,13 +1,14 @@
 from PIL import Image
-from FILEPATH import input_path
+from pathlib import Path
+import os
 # FILE PATH
 def get_filepath():
     file_name = input("Enter file name with extension: ")
-    final_path = input_path + file_name
-    return final_path
+    input_path = str(os.path.join(Path.home(), "Downloads", file_name))
+    return input_path
 
-def convert_to_ascii(final_path):
-    img = Image.open(final_path).convert('L')
+def convert_to_ascii(input_path):
+    img = Image.open(input_path).convert('L')
     width, height = img.size
     aspect_ratio = height / width
     width = 80
